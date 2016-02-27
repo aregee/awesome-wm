@@ -68,8 +68,10 @@ beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/multicolor/theme.lu
 modkey     = "Mod4"
 altkey     = "Mod1"
 terminal   = "urxvtc"
-editor     = os.getenv("EDITOR") or "nano" or "vi"
+chat       = "weechat"
+editor     = os.getenv("EDITOR") or "vim" or "vi"
 editor_cmd = terminal .. " -e " .. editor
+chat_cmd   = terminal .. " -e"  .. chat
 
 -- user defined
 browser    = "google-chrome"
@@ -109,7 +111,7 @@ tagsconf = {}
 
 tagsconf[1] = {
    names = { "home", "dev", "term", "web", "music","irc","studio", "proc"},
-   layout = { layouts[3], layouts[3], layouts[11], layouts[1], layouts[6], layouts[2], layouts[8], layouts[5]
+   layout = { layouts[3], layouts[12], layouts[11], layouts[1], layouts[6], layouts[2], layouts[8], layouts[5]
 }}
 
 tagsconf[2] = {
@@ -652,7 +654,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "q", function () awful.util.spawn(browser) end),
     awful.key({ modkey }, "i", function () awful.util.spawn(browser2) end),
     awful.key({ modkey }, "s", function () awful.util.spawn(gui_editor) end),
-    awful.key({ modkey }, "g", function () awful.util.spawn(graphics) end),
+    awful.key({ modkey }, "g", function () awful.util.spawn(os.execute(chat_cmd)) end),
 
     -- Prompt
     awful.key({ modkey }, "r", function () mypromptbox[mouse.screen]:run() end),
@@ -740,28 +742,54 @@ root.keys(globalkeys)
 -- }}}
 
 -- {{{ Rules
-awful.rules.rules = {
-    -- All clients will match this rule.
-    { rule = { },
-      properties = { border_width = beautiful.border_width,
-                     border_color = beautiful.border_normal,
-                     focus = awful.client.focus.filter,
-                     keys = clientkeys,
-                     buttons = clientbuttons,
-	                   size_hints_honor = false } },
-    { rule = { class = "x-terminal-emulator" },
-          properties = { opacity = 0.99 } },
 
-    { rule = { class = "MPlayer" },
-          properties = { floating = true } },
+for s = 1, screen.count() do
 
-    -- { rule = { class = "Atom" },
-    --       properties = { tag = tags[1][2] } },
+  if s < 2 then
+    awful.rules.rules = {
+        -- All clients will match this rule.
+        { rule = { },
+          properties = { border_width = beautiful.border_width,
+                         border_color = beautiful.border_normal,
+                         focus = awful.client.focus.filter,
+                         keys = clientkeys,
+                         buttons = clientbuttons,
+    	                   size_hints_honor = false } },
+        { rule = { instance = "urxb" },
+              properties = { tag = tags[1][3] } },
 
-    { rule = { class = "Spotify" },
-       properties = { tag = tags[1][5] } },
+        { rule = { class = "MPlayer" },
+              properties = { floating = true } },
 
-}
+        { rule = { class = "Atom" },
+               properties = { tag = tags[1][2] } },
+
+        { rule = { class = "Spotify" },
+           properties = { tag = tags[1][5] } },
+
+    }
+  else
+    awful.rules.rules = {
+        -- All clients will match this rule.
+        { rule = { },
+          properties = { border_width = beautiful.border_width,
+                         border_color = beautiful.border_normal,
+                         focus = awful.client.focus.filter,
+                         keys = clientkeys,
+                         buttons = clientbuttons,
+    	                   size_hints_honor = false } },
+        { rule = { instance = "urxvtc" },
+              properties = { tag = tags[2][3] } },
+
+        { rule = { class = "Atom" },
+               properties = { tag = tags[2][2] } },
+
+        { rule = { class = "Spotify" },
+           properties = { tag = tags[2][4] } },
+
+    }
+  end
+end
 -- }}}
 
 -- {{{ Signals
