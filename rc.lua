@@ -50,13 +50,19 @@ function run_once(cmd)
   awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
 end
 
---run_once("x-terminal-emulator")
+run_once("urxvtd")
 run_once("unclutter -root")
 run_once("locker.sh")
 run_once("nm-applet")
 run_once("redshift-gtk")
 run_once("spotify")
 run_once("rotatewp")
+for s = 1, screen.count() do
+  if s > 1 then
+    run_once('hydra_head')
+  end
+end
+
 -- }}}
 
 -- {{{ Variable definitions
@@ -67,7 +73,7 @@ beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/multicolor/theme.lu
 -- common
 modkey     = "Mod4"
 altkey     = "Mod1"
-terminal   = "x-terminal-emulator"
+terminal   = "urxvtc"
 editor     = os.getenv("EDITOR") or "nano" or "vi"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -137,7 +143,7 @@ end
               tags[1][t]:connect_signal("property::selected", function (tag)
                if not tag.selected then return end
                r = math.random(34)
-               theme.wallpaper = "/home/innovaccer/Wallpapers/wallbase_" .. r .. ".\jpg"
+               theme.wallpaper = os.getenv('HOME') .. "/Wallpapers/wallbase_" .. r .. ".\jpg"
                  gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
     	        end)
             end
@@ -145,7 +151,7 @@ end
               tags[2][t]:connect_signal("property::selected", function (tag)
                if not tag.selected then return end
                r = math.random(34)
-               theme.wallpaper = "/home/innovaccer/Wallpapers/wallbase_" .. r .. ".\jpg"
+               theme.wallpaper =  os.getenv("HOME") .. "/Wallpapers/wallbase_" .. r .. ".\jpg"
                  gears.wallpaper.maximized(beautiful.wallpaper, 2, true)
               end)
             end
@@ -154,7 +160,7 @@ end
               tags[1][t]:connect_signal("property::selected", function (tag)
                if not tag.selected then return end
                r = math.random(34)
-               theme.wallpaper = "/home/innovaccer/Wallpapers/wallbase_" .. r .. ".\jpg"
+               theme.wallpaper = os.getenv('HOME') .. "/Wallpapers/wallbase_" .. r .. ".\jpg"
                  gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
     	        end)
             end
@@ -470,8 +476,14 @@ root.buttons(awful.util.table.join(
 globalkeys = awful.util.table.join(
     -- Take a screenshot
     -- https://github.com/copycat-killer/dots/blob/master/bin/screenshot
-    awful.key({ altkey }, "p", function() os.execute("screenshot") end),
+    awful.key({ altkey }, "p",
+      function() os.execute("gnome-screenshot")
+    end),
 
+    -- pase from clipboard
+    awful.key({ altkey }, "v",
+      function() os.execute("xsel -x; xsel -o -b | xsel -i; xdotool click 2; xsel -x")
+    end),
     -- Tag browsing
     awful.key({ modkey }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey }, "Right",  awful.tag.viewnext       ),

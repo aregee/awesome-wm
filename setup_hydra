@@ -1,0 +1,4 @@
+#! /bin/bash
+
+xrandr --output VGA1 --mode 1920x1080 --left-of LVDS1
+xrandr --output VGA1 --rotate right
