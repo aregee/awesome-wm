@@ -51,11 +51,18 @@ Gallery
 
 **MulticolorSteamBurn** inspired by @copycat-killer
 
-.. image:: http://i.imgur.com/d5edtLD.png
+.. image:: http://i.imgur.com/q6U8olD.png
 
-.. image:: http://i.imgur.com/x0YMrip.png
+.. image:: http://imgur.com/45RSVb3.png
 
-View More at `imgur <http://imgur.com/a/TJsdx/all>`_.
+.. image:: http://i.imgur.com/mQWJeAk.png
+
+.. image:: http://imgur.com/Nc3Dj39.png
+
+.. image:: http://imgur.com/vqpR6c6.png
+
+View More at `here <http://imgur.com/a/RAIb1>`_. and `here <http://imgur.com/a/TJsdx/all>`_.
+
 
 Installation
 ============
