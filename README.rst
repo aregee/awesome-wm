@@ -2,9 +2,9 @@
 Awesome Multicolor Burn
 =======================
 
----------------------------------------------
+--------------------------------------------------------
 Minimal functional Dual Head Config for Awesome WM 3.5+
---------------------------------------------
+--------------------------------------------------------
 
 :Author: Aregee
 :Version: git
@@ -14,8 +14,9 @@ Minimal functional Dual Head Config for Awesome WM 3.5+
 Description
 ===========
 
-A minimal theme crossed between Multicolor and Steamburn , with basic setup
-for dual head display
+A minimal theme crossed between Multicolor and Steamburn, with basic setup 
+for dual head display.
+
 Notable features
 ================
 
@@ -51,6 +52,8 @@ Gallery
 **MulticolorSteamBurn** inspired by @copycat-killer
 
 .. image:: http://i.imgur.com/d5edtLD.png
+
+.. image:: http://i.imgur.com/x0YMrip.png
 
 View More at `imgur <http://imgur.com/a/TJsdx/all>`_.
 
