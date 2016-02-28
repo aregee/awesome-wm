@@ -50,7 +50,8 @@ Gallery
 
 **MulticolorSteamBurn** inspired by @copycat-killer
 
-.. image:: http://dotshare.it/public/images/uploads/650.png
+.. image:: http://i.imgur.com/d5edtLD.png
+
 
 Installation
 ============
