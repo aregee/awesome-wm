@@ -3,7 +3,7 @@ Awesome Multicolor Burn
 =======================
 
 ---------------------------------------------
-Minimal functional Config for Awesome WM 3.5+
+Minimal functional Dual Head Config for Awesome WM 3.5+
 --------------------------------------------
 
 :Author: Aregee
@@ -52,6 +52,7 @@ Gallery
 
 .. image:: http://i.imgur.com/d5edtLD.png
 
+View More at `imgur <http://imgur.com/a/TJsdx/all>`_.
 
 Installation
 ============
