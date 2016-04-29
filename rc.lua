@@ -56,7 +56,7 @@ run_once("locker.sh")
 run_once("nm-applet")
 run_once("redshift-gtk")
 run_once("spotify")
-run_once("rotatewp")
+run_once("~/.config/awesome/start_weechat")
 -- }}}
 
 -- {{{ Variable definitions
@@ -65,19 +65,21 @@ run_once("rotatewp")
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/multicolor/theme.lua")
 
 -- common
-modkey     = "Mod4"
-altkey     = "Mod1"
-terminal   = "urxvtc"
-chat       = "weechat"
-editor     = os.getenv("EDITOR") or "vim" or "vi"
-editor_cmd = terminal .. " -e " .. editor
-chat_cmd   = terminal .. " -e"  .. chat
+modkey      = "Mod4"
+altkey      = "Mod1"
+terminal    = "urxvtc"
+chat        = "weechat"
+editor      = os.getenv("EDITOR") or "vim" or "vi"
+editor_cmd  = terminal .. " -e " .. editor
+chat_cmd    = terminal .. " -e"  .. chat
 
 -- user defined
 browser    = "google-chrome"
 browser2   = "firefox"
 gui_editor = "atom"
 graphics   = "gimp"
+
+netflix_tab = browser .. " --new-window netflix.com"
 
 -- lain
 lain.layout.termfair.nmaster = 3
@@ -138,7 +140,7 @@ end
             for t = 1, 8 do
               tags[1][t]:connect_signal("property::selected", function (tag)
                if not tag.selected then return end
-               r = math.random(34)
+               r = math.random(144)
                theme.wallpaper = os.getenv('HOME') .. "/Wallpapers/wallbase_" .. r .. ".\jpg"
                  gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
     	        end)
@@ -146,16 +148,16 @@ end
             for t = 1, 4 do
               tags[2][t]:connect_signal("property::selected", function (tag)
                if not tag.selected then return end
-               r = math.random(34)
+               r = math.random(144)
                theme.wallpaper =  os.getenv("HOME") .. "/Wallpapers/wallbase_" .. r .. ".\jpg"
                  gears.wallpaper.maximized(beautiful.wallpaper, 2, true)
               end)
             end
           else
-            for t = 1, 8 do
+            for t = 2, 8 do
               tags[1][t]:connect_signal("property::selected", function (tag)
                if not tag.selected then return end
-               r = math.random(34)
+               r = math.random(144)
                theme.wallpaper = os.getenv('HOME') .. "/Wallpapers/wallbase_" .. r .. ".\jpg"
                  gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
     	        end)
@@ -236,6 +238,15 @@ lain.widgets.bat({
         bat_perc = bat_now.perc
         if bat_perc == "N/A" then bat_perc = "Plug" end
         widget:set_markup(markup(gray, " Bat ") .. bat_perc .. " ")
+    end
+})
+
+-- Net checker
+netstatwidget = lain.widgets.net({
+    settings = function()
+        if net_now.state == "up" then net_state = "On"
+        else net_state = "Off" end
+        widget:set_markup(markup(gray, " Net ") .. net_state .. " ")
     end
 })
 
@@ -410,8 +421,9 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the upper right
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
-    --right_layout:add(mailicon)
-    --right_layout:add(mailwidget)
+    right_layout:add(mpdicon)
+    right_layout:add(mpdwidget)
+    right_layout:add(netstatwidget)
     right_layout:add(netdownicon)
     right_layout:add(netdowninfo)
     right_layout:add(netupicon)
@@ -652,6 +664,7 @@ globalkeys = awful.util.table.join(
 
     -- User programs
     awful.key({ modkey }, "q", function () awful.util.spawn(browser) end),
+    awful.key({ modkey, "Shift", "q" }, "n", function () awful.util.spawn(netflix_tab) end),
     awful.key({ modkey }, "i", function () awful.util.spawn(browser2) end),
     awful.key({ modkey }, "s", function () awful.util.spawn(gui_editor) end),
     awful.key({ modkey }, "g", function () awful.util.spawn(os.execute(chat_cmd)) end),
