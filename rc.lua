@@ -154,7 +154,7 @@ end
               end)
             end
           else
-            for t = 2, 8 do
+            for t = 1, 8 do
               tags[1][t]:connect_signal("property::selected", function (tag)
                if not tag.selected then return end
                r = math.random(144)
