@@ -11,7 +11,16 @@ theme                               = {}
 
 theme.confdir                       = os.getenv("HOME") .. "/.config/awesome/themes/multicolor"
 theme.wallpaper                     = theme.confdir .. "/wall.png"
-
+theme.selected			    = "Wallpapers"
+theme.mode			    = {}
+theme.mode.xplicitwp		    = 576
+theme.mode.Wallpapers		    = 578
+theme.count			    = function ()
+					return theme.mode[theme.selected]
+				      end
+theme.wallpaperdir		    = function () 
+					return os.getenv("HOME") .. "/.config/awesome/walls/" .. theme.selected 
+				      end
 theme.font                          = "Tamsyn 10.5"
 --theme.taglist_font                =
 theme.menu_bg_normal                = "#000000"

@@ -16,6 +16,7 @@ local beautiful = require("beautiful")
 local naughty   = require("naughty")
 local drop      = require("scratchdrop")
 local lain      = require("lain")
+
 --require("battery")
 
 -- }}}
@@ -85,6 +86,8 @@ filexplore = "thunar"
 netflix_tab = browser .. " --new-window netflix.com"
 notes = browser .. " --new-window keep.google.com/u/0/"
 _notes = browser .. " --new-window keep.google.com/u/1/"
+wallpaperdir = os.getenv("WALLDIR") or "xplicitwp"
+
 
 -- lain
 lain.layout.termfair.nmaster = 3
@@ -137,16 +140,16 @@ end
             for t = 1, 8 do
               tags[1][t]:connect_signal("property::selected", function (tag)
                if not tag.selected then return end
-               r = math.random(194)
-               theme.wallpaper = os.getenv('HOME') .. "/Wallpapers/wallheaven_" .. r .. ".\jpg"
+               r = math.random(theme.count())
+               theme.wallpaper = theme.wallpaperdir() .. "/wallheaven_" .. r .. ".\jpg"
                  gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
     	        end)
             end
             for t = 1, 4 do
               tags[2][t]:connect_signal("property::selected", function (tag)
                if not tag.selected then return end
-               r = math.random(194)
-               theme.wallpaper =  os.getenv("HOME") .. "/Wallpapers/wallheaven_" .. r .. ".\jpg"
+               r = math.random(theme.count())
+               theme.wallpaper =  theme.wallpaperdir() .. "/wallheaven_" .. r .. ".\jpg"
                  gears.wallpaper.maximized(beautiful.wallpaper, 2, true)
               end)
             end
@@ -154,8 +157,8 @@ end
             for t = 1, 8 do
               tags[1][t]:connect_signal("property::selected", function (tag)
                if not tag.selected then return end
-               r = math.random(194)
-               theme.wallpaper = os.getenv('HOME') .. "/Wallpapers/wallheaven_" .. r .. ".\jpg"
+               r = math.random(theme.count())
+	       theme.wallpaper =  theme.wallpaperdir() .. "/wallheaven_" .. r .. ".\jpg"
                  gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
     	        end)
             end
