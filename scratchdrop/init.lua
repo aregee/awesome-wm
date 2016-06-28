@@ -87,7 +87,9 @@ function toggle(prog, vert, horiz, width, height, sticky, screen)
             else   y =  screengeom.y - screengeom.y end
 
             -- Client properties
-            c:geometry({ x = x, y = y + mywibox[mouse.screen].height, width = width - 2, height = height })
+            if vert == "center" then y = y
+            else y = y + mywibox[mouse.screen].height end
+            c:geometry({ x = x, y = y, width = width - 2, height = height })
             c.ontop = true
             c.above = true
             c.skip_taskbar = true

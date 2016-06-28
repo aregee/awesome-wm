@@ -16,6 +16,8 @@ local beautiful = require("beautiful")
 local naughty   = require("naughty")
 local drop      = require("scratchdrop")
 local lain      = require("lain")
+--require("battery")
+
 -- }}}
 
 
@@ -55,8 +57,8 @@ run_once("unclutter -root")
 run_once("locker.sh")
 run_once("nm-applet")
 run_once("redshift-gtk")
-run_once("spotify")
-run_once("~/.config/awesome/start_weechat")
+run_once("clementine")
+--run_once("~/.config/awesome/start_weechat")
 -- }}}
 
 -- {{{ Variable definitions
@@ -76,10 +78,13 @@ chat_cmd    = terminal .. " -e"  .. chat
 -- user defined
 browser    = "google-chrome"
 browser2   = "firefox"
+incognito  = browser .. " --incognito"
 gui_editor = "atom"
 graphics   = "gimp"
-
+filexplore = "thunar"
 netflix_tab = browser .. " --new-window netflix.com"
+notes = browser .. " --new-window keep.google.com/u/0/"
+_notes = browser .. " --new-window keep.google.com/u/1/"
 
 -- lain
 lain.layout.termfair.nmaster = 3
@@ -88,15 +93,7 @@ lain.layout.termfair.ncol    = 1
 local layouts = {
 
     awful.layout.suit.floating,
-    awful.layout.suit.tile,
-    awful.layout.suit.tile.left,
-    awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
+    lain.layout.centerfair,
     lain.layout.termfair,
     lain.layout.uselessfair.horizontal,
     lain.layout.uselesstile,
@@ -113,12 +110,12 @@ tagsconf = {}
 
 tagsconf[1] = {
    names = { "home", "dev", "term", "web", "music","irc","studio", "proc"},
-   layout = { layouts[3], layouts[12], layouts[11], layouts[1], layouts[6], layouts[2], layouts[8], layouts[5]
+   layout = { layouts[1], layouts[7], layouts[3], layouts[2], layouts[4], layouts[2], layouts[6], layouts[5]
 }}
 
 tagsconf[2] = {
    names = { "home", "dev", "term", "music"},
-   layout = { layouts[3], layouts[3], layouts[14], layouts[1]
+   layout = { layouts[1], layouts[7], layouts[3], layouts[4]
 }}
 
 for s = 1, screen.count() do
@@ -140,25 +137,25 @@ end
             for t = 1, 8 do
               tags[1][t]:connect_signal("property::selected", function (tag)
                if not tag.selected then return end
-               r = math.random(144)
-               theme.wallpaper = os.getenv('HOME') .. "/Wallpapers/wallbase_" .. r .. ".\jpg"
+               r = math.random(194)
+               theme.wallpaper = os.getenv('HOME') .. "/Wallpapers/wallheaven_" .. r .. ".\jpg"
                  gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
     	        end)
             end
             for t = 1, 4 do
               tags[2][t]:connect_signal("property::selected", function (tag)
                if not tag.selected then return end
-               r = math.random(144)
-               theme.wallpaper =  os.getenv("HOME") .. "/Wallpapers/wallbase_" .. r .. ".\jpg"
+               r = math.random(194)
+               theme.wallpaper =  os.getenv("HOME") .. "/Wallpapers/wallheaven_" .. r .. ".\jpg"
                  gears.wallpaper.maximized(beautiful.wallpaper, 2, true)
               end)
             end
           else
-            for t = 2, 8 do
+            for t = 1, 8 do
               tags[1][t]:connect_signal("property::selected", function (tag)
                if not tag.selected then return end
-               r = math.random(144)
-               theme.wallpaper = os.getenv('HOME') .. "/Wallpapers/wallbase_" .. r .. ".\jpg"
+               r = math.random(194)
+               theme.wallpaper = os.getenv('HOME') .. "/Wallpapers/wallheaven_" .. r .. ".\jpg"
                  gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
     	        end)
             end
@@ -220,27 +217,16 @@ tempwidget = lain.widgets.temp({
 
 -- Battery
 baticon = wibox.widget.imagebox(beautiful.widget_batt)
-batwidget = lain.widgets.bat({
-    settings = function()
-        if bat_now.perc == "N/A" then
-            perc = "AC "
-        else
-            perc = bat_now.perc .. "% "
-        end
-        widget:set_text(perc)
-    end
-})
-
 gray   = "#94928F"
-
-lain.widgets.bat({
+batwidget = lain.widgets.bat({
+    battery =  "BAT1",
     settings = function()
         bat_perc = bat_now.perc
         if bat_perc == "N/A" then bat_perc = "Plug" end
         widget:set_markup(markup(gray, " Bat ") .. bat_perc .. " ")
     end
 })
-
+awful.key({ modkey }, "s", function () awful.util.spawn(gui_editor) end)
 -- Net checker
 netstatwidget = lain.widgets.net({
     settings = function()
@@ -409,14 +395,13 @@ for s = 1, screen.count() do
     mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
 
     -- Create the upper wibox
-    mywibox[s] = awful.wibox({ position = "top", screen = s, height = 20 })
+    mywibox[s] = awful.wibox({ position = "top", screen = s, height = 23 })
     --border_width = 0, height =  20 })
 
     -- Widgets that are aligned to the upper left
     local left_layout = wibox.layout.fixed.horizontal()
     left_layout:add(mytaglist[s])
     left_layout:add(mypromptbox[s])
-    left_layout:add(txtlayoutbox[s])
 
     -- Widgets that are aligned to the upper right
     local right_layout = wibox.layout.fixed.horizontal()
@@ -460,7 +445,7 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the bottom right
     bottom_right_layout = wibox.layout.fixed.horizontal()
-    bottom_right_layout:add(mylayoutbox[s])
+    --bottom_right_layout:add(mylayoutbox[s])
     bottom_right_layout:add(txtlayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
@@ -482,7 +467,7 @@ root.buttons(awful.util.table.join(
 globalkeys = awful.util.table.join(
     -- Take a screenshot
     -- https://github.com/copycat-killer/dots/blob/master/bin/screenshot
-    awful.key({ altkey }, "p",
+    awful.key({ altkey }, "s",
       function() os.execute("gnome-screenshot")
     end),
 
@@ -572,9 +557,11 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "r",      awesome.restart),
     awful.key({ modkey, "Shift"   }, "q",      awesome.quit),
 
-    -- Dropdown terminal
+    -- Dropdown apps
     awful.key({ modkey,	          }, "z",      function () drop(terminal) end),
-
+    awful.key({ modkey,	          }, "a",      function () drop(incognito) end),
+    awful.key({ altkey,	          }, "i",      function () drop(notes, "center", "right", 0.35, 1) end),
+    awful.key({ altkey,		        }, "w",      function () drop(_notes, "center", "right", 0.35, 1) end),
     -- Widgets popups
     awful.key({ altkey,           }, "c",      function () lain.widgets.calendar:show(7) end),
     awful.key({ altkey,           }, "h",      function () fshomeupd.show(7) end),
@@ -592,7 +579,7 @@ globalkeys = awful.util.table.join(
         end),
     awful.key({ altkey }, "m",
         function ()
-            os.execute(string.format("amixer set %s toggle", volumewidget.channel))
+            os.execute(string.format("amixer -D pulse set %s toggle", volumewidget.channel))
             volumewidget.update()
         end),
     awful.key({ altkey, "Control" }, "m",
@@ -648,15 +635,14 @@ globalkeys = awful.util.table.join(
         awful.util.spawn("xbacklight -inc 15") end),
 
     -- Media Keys
-
-    awful.key({ }, "XF86AudioPlay", function ()
-      awful.util.spawn_with_shell("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause")
+    awful.key({altkey, "Space" }, "p", function ()
+      awful.util.spawn_with_shell("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.clementine /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause")
     end),
-    awful.key({ }, "XF86AudioNext", function ()
-      awful.util.spawn_with_shell("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next")
+    awful.key({altkey, "Space" }, "n", function ()
+      awful.util.spawn_with_shell("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.clementine /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next")
     end),
-    awful.key({ }, "XF86AudioPrev", function ()
-       awful.util.spawn_with_shell("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous")
+    awful.key({altkey, "Space" }, "b", function ()
+       awful.util.spawn_with_shell("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.clementine /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous")
     end),
 
     -- Copy to clipboard
@@ -665,8 +651,9 @@ globalkeys = awful.util.table.join(
     -- User programs
     awful.key({ modkey }, "q", function () awful.util.spawn(browser) end),
     awful.key({ modkey, "Shift", "q" }, "n", function () awful.util.spawn(netflix_tab) end),
-    awful.key({ modkey }, "i", function () awful.util.spawn(browser2) end),
+    --awful.key({ modkey }, "i", function () awful.util.spawn(browser2) end),
     awful.key({ modkey }, "s", function () awful.util.spawn(gui_editor) end),
+    awful.key({ altkey }, "e", function () awful.util.spawn(filexplore) end),
     awful.key({ modkey }, "g", function () awful.util.spawn(os.execute(chat_cmd)) end),
 
     -- Prompt
@@ -777,7 +764,7 @@ for s = 1, screen.count() do
         { rule = { class = "Atom" },
                properties = { tag = tags[1][2] } },
 
-        { rule = { class = "Spotify" },
+        { rule = { class = "Clementine" },
            properties = { tag = tags[1][5] } },
 
     }
@@ -797,7 +784,7 @@ for s = 1, screen.count() do
         { rule = { class = "Atom" },
                properties = { tag = tags[2][2] } },
 
-        { rule = { class = "Spotify" },
+        { rule = { class = "Clementine" },
            properties = { tag = tags[2][4] } },
 
     }
