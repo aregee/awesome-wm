@@ -52,7 +52,6 @@ function run_once(cmd)
   end
   awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
 end
-
 run_once("urxvtd")
 run_once("unclutter -root")
 run_once("locker.sh")
@@ -126,14 +125,6 @@ for s = 1, screen.count() do
 end
 -- }}}
 
--- -- {{{ Wallpaper
--- if beautiful.wallpaper then
---     for s = 1, screen.count() do
---         gears.wallpaper.maximized(beautiful.wallpaper, s, true)
---     end
--- end
--- -- }}}
-
 --{{{ Tag Wallpapers
         for s = 1, screen.count() do
           if s > 1 then
@@ -141,7 +132,7 @@ end
               tags[1][t]:connect_signal("property::selected", function (tag)
                if not tag.selected then return end
                r = math.random(theme.count())
-               theme.wallpaper = theme.wallpaperdir() .. "/wallheaven_" .. r .. ".\jpg"
+               theme.wallpaper = theme.wallpaperdir()() .. "/wallheaven_" .. r .. ".\jpg"
                  gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
     	        end)
             end
@@ -149,7 +140,7 @@ end
               tags[2][t]:connect_signal("property::selected", function (tag)
                if not tag.selected then return end
                r = math.random(theme.count())
-               theme.wallpaper =  theme.wallpaperdir() .. "/wallheaven_" .. r .. ".\jpg"
+               theme.wallpaper =  theme.wallpaperdir()() .. "/wallheaven_" .. r .. ".\jpg"
                  gears.wallpaper.maximized(beautiful.wallpaper, 2, true)
               end)
             end
@@ -158,7 +149,7 @@ end
               tags[1][t]:connect_signal("property::selected", function (tag)
                if not tag.selected then return end
                r = math.random(theme.count())
-	       theme.wallpaper =  theme.wallpaperdir() .. "/wallheaven_" .. r .. ".\jpg"
+	            theme.wallpaper =  theme.wallpaperdir()() .. "/wallheaven_" .. r .. ".\jpg"
                  gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
     	        end)
             end
