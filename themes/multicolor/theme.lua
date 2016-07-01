@@ -1,38 +1,38 @@
-theme                               = {}
-theme.helpers			    							= {}
+theme                                = {}
+theme.helpers			    							 = {}
 theme.helpers.sysexecute             = function (cmd)
-                                        return function()
-                                          -- os.execute(cmd)
-                                          handle = io.popen(cmd)
-                                          result = handle:read("*a")
-                                          handle:close()
-                                          return result
-                                        end
-                                      end
+    return function()
+        -- os.execute(cmd)
+        handle = io.popen(cmd)
+        result = handle:read("*a")
+        handle:close()
+        return result
+    end
+end
 theme.helpers.isempty	              = function (s)
-																				return s == nil or s == ''
-																			end
+    return s == nil or s == ''
+end
 theme.confdir                       = os.getenv("HOME") .. "/.config/awesome/themes/multicolor"
 theme.wallpaper                     = theme.confdir .. "/wall.png"
 theme.selected			    						= function ()
-                                        os.execute("source /home/innovaccer/.profile")
-																				return function ()
-																					selected = os.getenv('WALLDIR') or "xplicitwp"
-																					return selected
-																				end
-																			end
+    os.execute("source /home/innovaccer/.profile")
+    return function ()
+        selected = os.getenv('WALLDIR') or "xplicitwp"
+        return selected
+    end
+end
 theme.mode			    								= {}
-theme.wallpaperdir		    			= function ()
-                                    return function()
-                                      home = os.getenv("HOME")
-                                      confpath = "/.config/awesome/walls/"
-                                      return string.format("%s%s%s", home, confpath, theme.selected()())
-                                    end
-                                  end
-theme.count			  							= function ()
-                                        return tonumber(theme.mode.count())
-																	end
-theme.mode.count		    				= theme.helpers.sysexecute(string.format("ls -1 %s | wc -l", theme.wallpaperdir()()))
+theme.wallpaperdir		    			    = function ()
+    return function()
+        home = os.getenv("HOME")
+        confpath = "/.config/awesome/walls/"
+        return string.format("%s%s%s", home, confpath, theme.selected()())
+    end
+end
+theme.count			  							    = function ()
+    return tonumber(theme.mode.count())
+end
+theme.mode.count		    				    = theme.helpers.sysexecute(string.format("ls -1 %s | wc -l", theme.wallpaperdir()()))
 theme.font                          = "Tamsyn 10.5"
 --theme.taglist_font                =
 theme.menu_bg_normal                = "#000000"

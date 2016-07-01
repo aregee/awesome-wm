@@ -85,7 +85,7 @@ filexplore = "thunar"
 netflix_tab = browser .. " --new-window netflix.com"
 notes = browser .. " --new-window keep.google.com/u/0/"
 _notes = browser .. " --new-window keep.google.com/u/1/"
-wallpaperdir = os.getenv("WALLDIR") or "xplicitwp"
+--wallpaperdir = os.getenv("WALLDIR") or "xplicitwp"
 
 
 -- lain
