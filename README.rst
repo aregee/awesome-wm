@@ -61,7 +61,8 @@ Gallery
 
 .. image:: http://imgur.com/vqpR6c6.png
 
-View More at `here <http://imgur.com/a/RAIb1>`_. and `here <http://imgur.com/a/TJsdx/all>`_.
+View More at `here <http://imgur.com/a/RAIb1>`_. and `here <http://imgur.com/a/TJsdx/all>`_. `some more <http://imgur.com/a/exo9d>`_.
+
 
 
 Installation
@@ -84,3 +85,40 @@ Switch a theme this way: ::
 Alternatively, you can use `switch-theme.sh`_, which will also update to the latest commit.
 
 Then customize your ``rc.lua`` and restart Awesome (``Mod4 + ctrl + r``).
+
+
+Wallpapers
+=============
+
+make `Wallpapers` directory at home (~/) containing wallpapers of your choice named as `wallbase_X.jpg` 
+
+where : X = integer 
+
+e.g. wallbase_2.jpg 
+
+Defaults
+========
+
+- common
+
+:terminal:   urxvtc
+:chat:       weechat
+
+- user defined
+
+:browser:    google-chrome
+:browser2:   firefox
+:gui_editor: atom
+:graphics:   gimp
+
+to use `sublime-text` and `gnome-terminal`
+	change `atom` to `subl` and `urxvtc` to `gnome-terminal` in rc.lua
+
+- short keys
+
+:modkey + q: google-chrome
+:modkey + i: firefox
+:modkey + s: atom
+:modkey + s: weechat
+
+
