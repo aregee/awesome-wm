@@ -1,5 +1,4 @@
 --[[
-
      Multicolor Steamburn Mod Awesome WM config 3.0
      github/aregee
      credits : github.com/copycat-killer
@@ -78,13 +77,14 @@ chat_cmd    = terminal .. " -e"  .. chat
 -- user defined
 browser    = "google-chrome"
 browser2   = "firefox"
+lightwb    = "dwb"
 incognito  = browser .. " --incognito"
 gui_editor = "atom"
 graphics   = "gimp"
 filexplore = "thunar"
 netflix_tab = browser .. " --new-window netflix.com"
-notes = browser .. " --new-window keep.google.com/u/0/"
-_notes = browser .. " --new-window keep.google.com/u/1/"
+notes = lightwb .. " -n keep.google.com/u/0/"
+_notes = lightwb .. " -n keep.google.com/u/1/"
 --wallpaperdir = os.getenv("WALLDIR") or "xplicitwp"
 
 
@@ -120,43 +120,89 @@ tagsconf[2] = {
    layout = { layouts[1], layouts[7], layouts[3], layouts[4]
 }}
 
+tagsconf[3] = {
+   names = { "home", "web","studio","proc"},
+   layout = { layouts[1], layouts[7], layouts[3], layouts[2]
+}}
+
 for s = 1, screen.count() do
    tags[s] = awful.tag(tagsconf[s].names, s, tagsconf[s].layout)
 end
+
 -- }}}
 
 --{{{ Tag Wallpapers
-        for s = 1, screen.count() do
-          if s > 1 then
-            for t = 1, 8 do
-              tags[1][t]:connect_signal("property::selected", function (tag)
-               if not tag.selected then return end
-               r = math.random(theme.count())
-               theme.wallpaper = theme.wallpaperdir()() .. "/wallheaven_" .. r .. ".\jpg"
-                 gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
-    	        end)
-            end
-            for t = 1, 4 do
-              tags[2][t]:connect_signal("property::selected", function (tag)
-               if not tag.selected then return end
-               r = math.random(theme.count())
-               theme.wallpaper =  theme.wallpaperdir()() .. "/wallheaven_" .. r .. ".\jpg"
-                 gears.wallpaper.maximized(beautiful.wallpaper, 2, true)
-              end)
-            end
-          else
-            for t = 1, 8 do
-              tags[1][t]:connect_signal("property::selected", function (tag)
-               if not tag.selected then return end
-               r = math.random(theme.count())
-	            theme.wallpaper =  theme.wallpaperdir()() .. "/wallheaven_" .. r .. ".\jpg"
-                 gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
-    	        end)
-            end
-        end
-      end
--- }}}
+if screen.count() == 3 then
+    for t = 1, 8 do
+      tags[1][t]:connect_signal("property::selected", function (tag)
+       if not tag.selected then return end
+       r = math.random(theme.count())
+       theme.wallpaper = theme.wallpaperdir()() .. "/wallheaven_" .. r .. ".\jpg"
+	 gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
+	end)
+    end
+    for t = 1, 4 do
+      tags[2][t]:connect_signal("property::selected", function (tag)
+       if not tag.selected then return end
+       r = math.random(theme.count())
+       theme.wallpaper =  theme.wallpaperdir()() .. "/wallheaven_" .. r .. ".\jpg"
+	 gears.wallpaper.maximized(beautiful.wallpaper, 2, 'black')
+      end)
+    end
+    for t = 1, 4 do
+      tags[3][t]:connect_signal("property::selected", function (tag)
+       if not tag.selected then return end
+       r = math.random(theme.count())
+       theme.wallpaper = theme.wallpaperdir()() .. "/wallheaven_" .. r .. ".\jpg"
+	 gears.wallpaper.maximized(beautiful.wallpaper, 3, 'black')
+	end)
+    end
+end
 
+if screen.count() == 2 then 
+ for t = 1, 8 do
+   tags[1][t]:connect_signal("property::selected", function (tag)
+     if not tag.selected then return end
+     r = math.random(theme.count())
+	 theme.wallpaper =  theme.wallpaperdir()() .. "/wallheaven_" .. r .. ".\jpg"
+	gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
+     end)	
+ end
+   for t = 1, 4 do
+      tags[2][t]:connect_signal("property::selected", function (tag)
+       if not tag.selected then return end
+       r = math.random(theme.count())
+       theme.wallpaper =  theme.wallpaperdir()() .. "/wallheaven_" .. r .. ".\jpg"
+	 gears.wallpaper.maximized(beautiful.wallpaper, 2, true)
+      end)
+    end
+end
+
+if screen.count() == 1 then
+ for t = 1, 8 do
+	tags[1][t]:connect_signal("property::selected", function (tag)
+	if not tag.selected then return end
+	r = math.random(theme.count())
+	    theme.wallpaper =  theme.wallpaperdir()() .. "/wallheaven_" .. r .. ".\jpg"
+	 gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
+	end)
+ end
+end
+
+
+if screen.count() > 3 then 
+  for s=1, screen.count() do
+    for t=1, 8 do
+	tags[s][t]:connect_signal("property::selected", function (tag)
+	if not tag.selected then return end
+	r = math.random(theme.count())
+	    theme.wallpaper =  theme.wallpaperdir()() .. "/wallheaven_" .. r .. ".\jpg"
+	 gears.wallpaper.maximized(beautiful.wallpaper, s, true)
+	end)
+    end
+  end
+end
+--}} 
 -- {{{ Freedesktop Menu
 mymainmenu = awful.menu.new({ items = require("menugen").build_menu(),
                               theme = { height = 16, width = 130 }})
@@ -553,7 +599,7 @@ globalkeys = awful.util.table.join(
 
     -- Dropdown apps
     awful.key({ modkey,	          }, "z",      function () drop(terminal) end),
-    awful.key({ modkey,	          }, "a",      function () drop(incognito) end),
+    awful.key({ modkey,	          }, "a",      function () drop(lightwb) end),
     awful.key({ altkey,	          }, "i",      function () drop(notes, "center", "right", 0.35, 1) end),
     awful.key({ altkey,		        }, "w",      function () drop(_notes, "center", "right", 0.35, 1) end),
     -- Widgets popups
@@ -772,9 +818,6 @@ for s = 1, screen.count() do
                          keys = clientkeys,
                          buttons = clientbuttons,
     	                   size_hints_honor = false } },
-        { rule = { instance = "urxvtc" },
-              properties = { tag = tags[2][3] } },
-
         { rule = { class = "Atom" },
                properties = { tag = tags[2][2] } },
 
