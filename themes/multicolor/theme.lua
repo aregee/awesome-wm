@@ -1,5 +1,5 @@
 theme                                = {}
-theme.helpers			    							 = {}
+theme.helpers			     = {}
 theme.helpers.sysexecute             = function (cmd)
     return function()
         -- os.execute(cmd)
@@ -9,30 +9,30 @@ theme.helpers.sysexecute             = function (cmd)
         return result
     end
 end
-theme.helpers.isempty	              = function (s)
+theme.helpers.isempty	            = function (s)
     return s == nil or s == ''
 end
 theme.confdir                       = os.getenv("HOME") .. "/.config/awesome/themes/multicolor"
 theme.wallpaper                     = theme.confdir .. "/wall.png"
-theme.selected			    						= function ()
+theme.selected			    = function ()
     os.execute("source /home/innovaccer/.profile")
     return function ()
         selected = os.getenv('WALLDIR') or "xplicitwp"
         return selected
     end
 end
-theme.mode			    								= {}
-theme.wallpaperdir		    			    = function ()
+theme.mode			   = {}
+theme.wallpaperdir		   = function ()
     return function()
         home = os.getenv("HOME")
         confpath = "/.config/awesome/walls/"
         return string.format("%s%s%s", home, confpath, theme.selected()())
     end
 end
-theme.count			  							    = function ()
+theme.count			    = function ()
     return tonumber(theme.mode.count())
 end
-theme.mode.count		    				    = theme.helpers.sysexecute(string.format("ls -1 %s | wc -l", theme.wallpaperdir()()))
+theme.mode.count		    = theme.helpers.sysexecute(string.format("ls -1 %s | wc -l", theme.wallpaperdir()()))
 theme.font                          = "Tamsyn 10.5"
 --theme.taglist_font                =
 theme.menu_bg_normal                = "#000000"
@@ -57,9 +57,9 @@ theme.border_width                  = "1"
 theme.border_normal                 = "#1c2022"
 theme.border_focus                  = "#606060"
 theme.border_marked                 = "#3ca4d8"
-theme.menu_width                    = "140"
-theme.menu_border_width             = "1"
-theme.menu_height                   = "18"
+theme.menu_width                    = "180"
+theme.menu_border_width             = "8"
+theme.menu_height                   = "100"
 theme.menu_fg_normal                = "#aaaaaa"
 theme.menu_fg_focus                 = "#ff8c00"
 theme.menu_bg_normal                = "#050505dd"
