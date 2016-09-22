@@ -1,0 +1,5 @@
+#! /bin/bash
+
+xrandr --output HDMI1 --mode 1920x1080 --right-of eDP1
+xrandr --output DP1 --mode 1920x1080 --right-of HDMI1
+xrandr --output DP1 --rotate left
