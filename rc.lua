@@ -115,12 +115,12 @@ tagsconf[1] = {
    layout = { layouts[1], layouts[7], layouts[3], layouts[2], layouts[4], layouts[2], layouts[6], layouts[5]
 }}
 
-tagsconf[2] = {
+tagsconf[3] = {
    names = { "home", "dev", "term", "music"},
    layout = { layouts[1], layouts[7], layouts[3], layouts[4]
 }}
 
-tagsconf[3] = {
+tagsconf[2] = {
    names = { "home", "web","studio","proc"},
    layout = { layouts[1], layouts[7], layouts[3], layouts[2]
 }}
@@ -785,7 +785,7 @@ root.keys(globalkeys)
 
 for s = 1, screen.count() do
 
-  if s < 2 then
+  if s > 2 then
     awful.rules.rules = {
         -- All clients will match this rule.
         { rule = { },
@@ -802,7 +802,7 @@ for s = 1, screen.count() do
               properties = { floating = true } },
 
         { rule = { class = "Atom" },
-               properties = { tag = tags[1][2] } },
+               properties = { tag = tags[2][2] } },
 
         { rule = { class = "Clementine" },
            properties = { tag = tags[1][5] } },
@@ -819,10 +819,10 @@ for s = 1, screen.count() do
                          buttons = clientbuttons,
     	                   size_hints_honor = false } },
         { rule = { class = "Atom" },
-               properties = { tag = tags[2][2] } },
+               properties = { tag = tags[1][2] } },
 
         { rule = { class = "Clementine" },
-           properties = { tag = tags[2][4] } },
+           properties = { tag = tags[1][4] } },
 
     }
   end
