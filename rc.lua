@@ -15,7 +15,7 @@ local beautiful = require("beautiful")
 local naughty   = require("naughty")
 local drop      = require("scratchdrop")
 local lain      = require("lain")
-
+local rng       = require("rng")
 --require("battery")
 
 -- }}}
@@ -121,9 +121,11 @@ tagsconf[3] = {
 }}
 
 tagsconf[2] = {
-   names = { "home", "web","studio","proc"},
-   layout = { layouts[1], layouts[7], layouts[3], layouts[2]
-}}
+   names = { "home", "web","dev","studio","proc"},
+   layout = { layouts[1], layouts[7], layouts[3], layouts[2], layouts[4]
+ }}
+
+
 
 for s = 1, screen.count() do
    tags[s] = awful.tag(tagsconf[s].names, s, tagsconf[s].layout)
@@ -136,7 +138,7 @@ if screen.count() == 3 then
     for t = 1, 8 do
       tags[1][t]:connect_signal("property::selected", function (tag)
        if not tag.selected then return end
-       r = math.random(theme.count())
+       r = rng.randomInt(1, theme.count())
        theme.wallpaper = theme.wallpaperdir()() .. "/wallheaven_" .. r .. ".\jpg"
 	 gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
 	end)
@@ -144,7 +146,7 @@ if screen.count() == 3 then
     for t = 1, 4 do
       tags[2][t]:connect_signal("property::selected", function (tag)
        if not tag.selected then return end
-       r = math.random(theme.count())
+       r = rng.randomInt(1, theme.count())
        theme.wallpaper =  theme.wallpaperdir()() .. "/wallheaven_" .. r .. ".\jpg"
 	 gears.wallpaper.maximized(beautiful.wallpaper, 2, 'black')
       end)
@@ -152,7 +154,7 @@ if screen.count() == 3 then
     for t = 1, 4 do
       tags[3][t]:connect_signal("property::selected", function (tag)
        if not tag.selected then return end
-       r = math.random(theme.count())
+       r = rng.randomInt(1, theme.count())
        theme.wallpaper = theme.wallpaperdir()() .. "/wallheaven_" .. r .. ".\jpg"
 	 gears.wallpaper.maximized(beautiful.wallpaper, 3, 'black')
 	end)
@@ -163,15 +165,15 @@ if screen.count() == 2 then
  for t = 1, 8 do
    tags[1][t]:connect_signal("property::selected", function (tag)
      if not tag.selected then return end
-     r = math.random(theme.count())
+     r = rng.randomInt(1, theme.count())
 	 theme.wallpaper =  theme.wallpaperdir()() .. "/wallheaven_" .. r .. ".\jpg"
 	gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
      end)	
  end
-   for t = 1, 4 do
+   for t = 1, 5 do
       tags[2][t]:connect_signal("property::selected", function (tag)
        if not tag.selected then return end
-       r = math.random(theme.count())
+       r = rng.randomInt(1, theme.count())
        theme.wallpaper =  theme.wallpaperdir()() .. "/wallheaven_" .. r .. ".\jpg"
 	 gears.wallpaper.maximized(beautiful.wallpaper, 2, true)
       end)
@@ -182,7 +184,7 @@ if screen.count() == 1 then
  for t = 1, 8 do
 	tags[1][t]:connect_signal("property::selected", function (tag)
 	if not tag.selected then return end
-	r = math.random(theme.count())
+	r = rng.randomInt(1, theme.count())
 	    theme.wallpaper =  theme.wallpaperdir()() .. "/wallheaven_" .. r .. ".\jpg"
 	 gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
 	end)
@@ -195,13 +197,14 @@ if screen.count() > 3 then
     for t=1, 8 do
 	tags[s][t]:connect_signal("property::selected", function (tag)
 	if not tag.selected then return end
-	r = math.random(theme.count())
+	r = math.random(1, theme.count())
 	    theme.wallpaper =  theme.wallpaperdir()() .. "/wallheaven_" .. r .. ".\jpg"
 	 gears.wallpaper.maximized(beautiful.wallpaper, s, true)
 	end)
     end
   end
 end
+
 --}} 
 -- {{{ Freedesktop Menu
 mymainmenu = awful.menu.new({ items = require("menugen").build_menu(),
@@ -785,7 +788,7 @@ root.keys(globalkeys)
 
 for s = 1, screen.count() do
 
-  if s > 2 then
+  if screen.count() == 2 then
     awful.rules.rules = {
         -- All clients will match this rule.
         { rule = { },
@@ -802,7 +805,7 @@ for s = 1, screen.count() do
               properties = { floating = true } },
 
         { rule = { class = "Atom" },
-               properties = { tag = tags[2][2] } },
+               properties = { tag = tags[2][3] } },
 
         { rule = { class = "Clementine" },
            properties = { tag = tags[1][5] } },
