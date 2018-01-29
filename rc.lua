@@ -79,7 +79,7 @@ browser    = "google-chrome"
 browser2   = "firefox"
 lightwb    = "dwb"
 incognito  = browser .. " --incognito"
-gui_editor = "atom"
+gui_editor = "code"
 graphics   = "gimp"
 filexplore = "thunar"
 netflix_tab = browser .. " --new-window netflix.com"
@@ -262,7 +262,7 @@ tempwidget = lain.widgets.temp({
 baticon = wibox.widget.imagebox(beautiful.widget_batt)
 gray   = "#94928F"
 batwidget = lain.widgets.bat({
-    battery =  "BAT1",
+    battery =  "BAT0",
     settings = function()
         bat_perc = bat_now.perc
         if bat_perc == "N/A" then bat_perc = "Plug" end
@@ -693,7 +693,7 @@ globalkeys = awful.util.table.join(
 
     -- User programs
     awful.key({ modkey }, "q", function () awful.util.spawn(browser) end),
-    awful.key({ modkey, "Shift", "q" }, "n", function () awful.util.spawn(netflix_tab) end),
+    awful.key({ modkey, "Shift"}, "l", function () os.execute("i3lock --fuzzy") end),
     --awful.key({ modkey }, "i", function () awful.util.spawn(browser2) end),
     awful.key({ modkey }, "s", function () awful.util.spawn(gui_editor) end),
     awful.key({ altkey }, "e", function () awful.util.spawn(filexplore) end),
@@ -804,7 +804,8 @@ for s = 1, screen.count() do
         { rule = { class = "MPlayer" },
               properties = { floating = true } },
 
-        { rule = { class = "Atom" },
+        { rule_any = { class = {"Atom", "Code" } },
+
                properties = { tag = tags[2][3] } },
 
         { rule = { class = "Clementine" },
@@ -821,7 +822,7 @@ for s = 1, screen.count() do
                          keys = clientkeys,
                          buttons = clientbuttons,
     	                   size_hints_honor = false } },
-        { rule = { class = "Atom" },
+        { rule_any = { class = {"Atom", "Code" } },
                properties = { tag = tags[1][2] } },
 
         { rule = { class = "Clementine" },

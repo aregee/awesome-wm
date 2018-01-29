@@ -31,13 +31,19 @@ local function worker(args)
     local settings = args.settings or function() end
 
     bat.widget = wibox.widget.textbox('')
-
+    
     bat_notification_low_preset = {
         title = "Battery low",
         text = "Plug the cable!",
         timeout = 15,
         fg = "#202020",
         bg = "#CDCDCD"
+    }
+   bat_notification_preset = {
+        title = "Battery Status",
+        timeout = 15,
+        fg = "#000000",
+        bg = "#FFFFFF"
     }
 
     bat_notification_critical_preset = {
@@ -47,6 +53,32 @@ local function worker(args)
         fg = "#000000",
         bg = "#FFFFFF"
     }
+
+    local bat_notification  = nil
+
+    function bat:hide()
+        if bat_notification ~= nil then
+            naughty.destroy(bat_notification)
+            bat_notification = nil
+        end
+    end
+    
+    function bat:show(t_out, time)
+        bat:hide()
+    
+        local ws = time 
+        -- helpers.read_pipe("acpi"):gsub("\n*$", "")
+    
+        if  bat.followmouse then
+            bat_notification_preset.screen = mouse.screen
+        end
+    
+        bat_notification = naughty.notify({
+            preset  = bat_notification_preset,
+            text    = ws .. " remaining",
+            timeout = t_out
+        })
+    end
 
     function update()
         bat_now = {
@@ -140,7 +172,8 @@ local function worker(args)
 
     newtimer(battery, timeout, update)
 
+    bat.widget:connect_signal('mouse::enter', function () bat:show(7, bat_now.time) end)
+    bat.widget:connect_signal('mouse::leave', function () bat:hide() end)
     return setmetatable(bat, { __index = bat.widget })
 end
-
 return setmetatable({}, { __call = function(_, ...) return worker(...) end })
